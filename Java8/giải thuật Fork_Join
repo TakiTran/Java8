@@ -1,0 +1,37 @@
+Thông tin:
+	- Fork/ Join Framework được thêm vào Java 7.
+	- Nó cung cấp các công cụ giúp tăng tốc xử lý song song bằng cách cố gắng sử dụng tất cả các lõi bộ xử lý có sẵn, 
+	được thực hiện thông qua cách tiếp cận phân chia (fork) và gộp (join) task.
+Mục đích:
+	- Để sử dụng tất cả các khả năng xử lý để nâng cao hiệu suất cho các ứng dụng.
+Cách thức hoạt động:
+	- Bước đầu tiên framework Fork/ Join thực hiện là chia nhỏ task (fork/ split) 
+	- Tiếp theo đệ quy chia nhỏ nhiệm vụ thành các nhiệm vụ phụ nhỏ hơn cho đến khi chúng đơn giản đủ để được thực hiện xử lý không đồng bộ.
+	- Cuối cùng gộp kết quả (join) bắt đầu, trong đó các kết quả của tất cả các nhiệm vụ phụ được đệ quy một cách đệ quy vào một kết quả,
+	hoặc trong trường hợp một nhiệm vụ trả về void, chương trình chỉ cần đợi cho đến khi mỗi nhiệm vụ phụ được thực hiện.
+	=> Để cung cấp thực hiện xử lý song song hiệu quả, các fork / join Framework sử dụng hồ chứa (pool) các Thread được gọi là ForkJoinPool.
+	- ForkJoinPool tương tự như Java ExecutorService nhưng với một sự khác biệt:
+		+ ForkJoinPool phân chia các tác vụ cho các luồng thực thi trong Thread Pool. 
+		+ Framework Fork/ Join sử dụng thuật toán work-stealing. 
+	- Các luồng sẽ thực thi công việc của mình trên một bộ xử lý riêng biệt (thread/ processor), khi làm hết việc của mình, 
+	nó lấy bớt (steal) các tác vụ từ các luồng khác đang bận rộn.
+	-Nguyên tắc Fork/ Join gồm 2 bước được thực hiện đệ quy(chia tách (fork/ split) và gộp (join/ merge))
+	
+Nguyên tắc hoạt động của Fork:
+	- Một nhiệm vụ (parent task) sử dụng nguyên tắc fork và join có thể chia tách (fork/ split) chính nó vào các nhiệm vụ con (sub task) nhỏ hơn
+	để có thể được thực hiện đồng thời. 
+	- Bằng cách chia nhỏ thành các nhiệm vụ con, mỗi nhiệm vụ con có thể được thực hiện song song bởi các CPU khác nhau, hoặc các luồng khác nhau
+	trên cùng một CPU.
+	- Một nhiệm vụ chỉ phân chia thành các nhiệm vụ phụ nếu công việc mà nhiệm vụ được đưa ra là đủ lớn để điều này có ý nghĩa. 
+	Có một chi phí để chia tách một nhiệm vụ thành các nhiệm vụ phụ, vì vậy với số lượng nhỏ công việc trên không thể lớn hơn tốc độ đạt được bằng
+	cách thực hiện các công việc phụ đồng thời.
+	
+Nguyên tắc hoạt động của Join:
+	- Khi một nhiệm vụ (parent task) đã tự tách mình thành các nhiệm vụ con (sub task), nhiệm vụ cha sẽ đợi cho đến khi các nhiệm vụ con hoàn thành.
+	- Khi nhiệm vụ con đã hoàn thành, nhiệm vụ cha có thể kết hợp (join/ merge) tất cả các kết quả con vào một kết quả cuối cùng.
+	- Không phải tất cả các loại nhiệm vụ có thể trả về một kết quả.
+	
+Nguyên tắc hoạt động của ForkJoinPool:
+	- Các ForkJoinPool là một Thread Pool đặc biệt được thiết kế để làm việc tốt với chia tách công việc fork/ join. 
+	- Tạo một ForkJoinPool với tham số là số lượng luồng hoặc các CPU bạn muốn làm việc đồng thời trên các nhiệm vụ được truyền vào ForkJoinPool.
+	
