@@ -4,10 +4,17 @@ import java.time.LocalDate;
 import java.util.Random;
 
 public class Student {
+	private int id;
 	private String name;
 	private int gender; 
 	private LocalDate birthOfDate;
 	private int skillPoint;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}
@@ -32,8 +39,9 @@ public class Student {
 	public void setSkillPoint(int skillPoint) {
 		this.skillPoint = skillPoint;
 	}
-	public Student(String name, int gender, LocalDate birthOfDate) {
+	public Student(int id, String name, int gender, LocalDate birthOfDate) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.gender = gender;
 		this.birthOfDate = birthOfDate;
@@ -41,9 +49,10 @@ public class Student {
 	}
 	@Override
 	public String toString() {
-		return "Student [name=" + name + ", gender=" + gender + ", birthOfDate=" + birthOfDate + ", skillPoint=" + skillPoint
-				+ "]";
+		return "Student [id=" + id + ", name=" + name + ", gender=" + gender + ", birthOfDate=" + birthOfDate
+				+ ", skillPoint=" + skillPoint + "]";
 	}
+	
 	
 	
 }

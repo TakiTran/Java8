@@ -15,17 +15,24 @@ public class StudentDaoImpl implements StudentDao{
 	}
 
 	@Override
-	public int getSumSkillPoin(List<Student> students, int minskillpoin) {
+	public int getSumSkillPoin(List<Student> students, int minSkillPoin) {
 		return students.stream()
-                .map(Student::getSkillPoint).filter(skill -> skill >= minskillpoin)
+                .map(Student::getSkillPoint).filter(skill -> skill >= minSkillPoin)
                 .collect(Collectors.summingInt(Integer::intValue));
 	}
 
 	@Override
-	public long getCountSkillPoin(List<Student> students, int minskillpoin) {
+	public long getCountSkillPoin(List<Student> students, int minSkillPoin) {
 		return students.stream()
-                .filter(skill -> skill.getSkillPoint() >= minskillpoin)
+                .filter(skill -> skill.getSkillPoint() >= minSkillPoin)
                 .count();
+	}
+
+	@Override
+	public Map<Integer, Student> getStudent(List<Student> students, int minSkillPoin) {
+		Map<Integer, Student> map = students.stream().filter(student-> student.getSkillPoint() >= minSkillPoin)
+			      .collect(Collectors.toMap(Student::getId, student -> student));
+		return map;
 	}
 	
 }
