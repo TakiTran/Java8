@@ -6,32 +6,32 @@ import java.util.stream.Collectors;
 
 import com.topica.model.Student;
 
-public class StudentDaoImpl implements StudentDao{
+public class StudentParallel implements StudentDao{
 
 	@Override
 	public Map<Integer, List<Student>> getGroupStudentByGender(List<Student> students) {
-		return students.stream()
+		return students.parallelStream()
                 .collect(Collectors.groupingBy(Student::getGender));
 	}
 
 	@Override
 	public int getSumSkillPoin(List<Student> students, int minSkillPoin) {
-		return students.stream()
+		return students.parallelStream()
                 .map(Student::getSkillPoint).filter(skill -> skill >= minSkillPoin)
                 .collect(Collectors.summingInt(Integer::intValue));
 	}
 
 	@Override
 	public long getCountSkillPoin(List<Student> students, int minSkillPoin) {
-		return students.stream()
+		return students.parallelStream()
                 .filter(skill -> skill.getSkillPoint() >= minSkillPoin)
                 .count();
 	}
 
 	@Override
 	public Map<Integer, Student> getStudent(List<Student> students, int minSkillPoin) {
-		return students.stream().filter(student-> student.getSkillPoint() >= minSkillPoin)
+		return students.parallelStream().filter(student-> student.getSkillPoint() >= minSkillPoin)
 			      .collect(Collectors.toMap(Student::getId, student -> student));
 	}
-	
+
 }

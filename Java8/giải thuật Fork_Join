@@ -34,18 +34,4 @@ Nguyên tắc hoạt động của Join:
 Nguyên tắc hoạt động của ForkJoinPool:
 	- Các ForkJoinPool là một Thread Pool đặc biệt được thiết kế để làm việc tốt với chia tách công việc fork/ join. 
 	- Tạo một ForkJoinPool với tham số là số lượng luồng hoặc các CPU bạn muốn làm việc đồng thời trên các nhiệm vụ được truyền vào ForkJoinPool.
-Ví dụ:
-function f(a, b):
-    c = g(a) (nhiệm vụ được fork chạy song song)
-    d = h(b)
-    Chờ kết quả từ trên (join)
-    return c + d
-
-function g(x):
-    return x * 2
-
-function h(x):
-    b = g(x) (nhiệm vụ được fork chạy song song)
-    c = x + 1
-    Chờ kết quả từ trên (join)
-    return b + c
+	
