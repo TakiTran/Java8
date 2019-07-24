@@ -1,4 +1,4 @@
-Thông tin:
+﻿1.1 Giải thuật Fork/join
 	- Fork/ Join Framework được thêm vào Java 7.
 	- Nó cung cấp các công cụ giúp tăng tốc xử lý song song bằng cách cố gắng sử dụng tất cả các lõi bộ xử lý có sẵn, 
 	được thực hiện thông qua cách tiếp cận phân chia (fork) và gộp (join) task.
@@ -34,4 +34,50 @@ Nguyên tắc hoạt động của Join:
 Nguyên tắc hoạt động của ForkJoinPool:
 	- Các ForkJoinPool là một Thread Pool đặc biệt được thiết kế để làm việc tốt với chia tách công việc fork/ join. 
 	- Tạo một ForkJoinPool với tham số là số lượng luồng hoặc các CPU bạn muốn làm việc đồng thời trên các nhiệm vụ được truyền vào ForkJoinPool.
-	
+Ví dụ: 
+function f(a, b):
+    c = g(a) (nhiệm vụ được fork chạy song song)
+    d = h(b)
+    Chờ kết quả từ trên (join)
+    return c + d
+
+function g(x):
+    return x * 2
+
+function h(x):
+    b = g(x) (nhiệm vụ được fork chạy song song)
+    c = x + 1
+    Chờ kết quả từ trên (join)
+    return b + c
+
+1.2 Benchmark
+	- Là hành động chạy các chương trình máy tính hoặc các hoạt động khác nhằm đánh giá hiệu suất tương đối của một đối tượng nhất định.
+	- Đánh giá các đặc tính hiệu năng của phần cứng máy tính, hiệu suất hoạt động của dấu phẩy động của CPU.
+	- Các benchmark của phần mềm như chạy với trình biên dịch hoặc hệ thống quản lý cơ sở dữ liệu (DBMS).
+	- Benchmark cung cấp một phương pháp so sánh hiệu suất của các hệ thống con khác nhau trên các kiến trúc chip /system  khác nhau.
+2 LocalDate, LocalTime
+Hạn chế ở phiên bản java < 8:
+	- Các lớp Date và Time trong Java không được định nghĩa một cách nhất quán, chúng ta có class Date  trong cả gói java.util cũng như java.sql.
+	- java.util.Date chứa cả Date vàTime, trong khi java.sql.Date chỉ chứa Date. Ngoài ra cả hai class có cùng tên, đó là một thiết kế rất xấu.
+	- Không có các class được định nghĩa rõ ràng về thời gian, mốc thời gian, định dạng và phân tích cú pháp.
+	- Muốn format date thì dùng class SimpleDateFormat.
+	- Lớp Date không có cung cấp sự quốc tế hóa, không có hỗ trợ múi giờ.
+Điểm hạn chế trên được khắc phục ở java 8:
+	- Tính bất biến: Tất cả các class trong Date Time  API là bất biến và tốt cho môi trường đa luồng.
+	- Phân tách rõ ràng: API phân tách rõ ràng giữa time, date có thể đọc được của con người và thời gian máy (mốc thời gian unix). Nó định nghĩa
+	 các class riêng biệt cho  Date, Time, DateTime, Timestamp, Timezone…
+	- Rành mạch: Các phương thức được xác định rõ ràng và thực hiện cùng một hành động trong tất cả các class.
+	- Có các phương thức format() và parse() được định nghĩa trong tất cả các lớp này thay vì có một class riêng cho chúng.
+	- Tất cả các class API Date Time mới đi kèm với các phương thức để thực hiện các tác vụ phổ biến, chẳng hạn như cộng, trừ, định dạng, phân tích
+	 cú pháp, nhận phần riêng biệt trong ngày / giờ, v.v.
+	-  API Date Time mới hoạt động trên hệ thống lịch ISO-8601 nhưng chúng ta cũng có thể sử dụng nó với các lịch không phải ISO khác.
+
+LocalDate: 
+	- LocalDate là một class bất biến đại diện cho Date với định dạng mặc định của yyyy-MM-dd.
+	- Method now() lấy ngày giờ hiện tại.
+	- Tạo cá thể localDate bằng cách truyền tham số đầu vào(year, month, date).
+LocalTime: 
+	- LocalTime là một class bất biến, nó biểu diễn thời gian ở định dạng mà con người có thể đọc được.
+	- Định dạng mặc định của nó là hh: mm: ss.zzz. Giống như LocalDate, class này hỗ trợ Timezone (múi giờ) và tạo các thể hiện của nó bằng cách chuyển giờ, phút và giây làm đối số đầu vào.
+
+
